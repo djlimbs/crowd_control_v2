@@ -38,28 +38,51 @@ CCCouple.CoupleData.reopenClass({
 
 // Controllers
 CCCouple.FoundationController = Ember.ObjectController.extend({
-    allCategories: function() {
-        return this.get('songcategories').getEach('name');
-    }.property('songcategories'),
-    displayedCategories: function() {
-        return this.get('songcategories');
-    }.property('songcategories', 'categoryFilter'),
+    needs: ['main'],
+    votesBinding: 'controllers.main.votes',
+    allPlaylists: function() {
+        return this.get('playlists').getEach('name');
+    }.property('playlists'),
+    displayedPlaylists: function() {
+        var playlists = this.get('playlists');
+        var playlistFilter = this.get('playlistFilter');
+        var preferenceFilter = this.get('preferenceFilter');
+        if (!Ember.isNone(playlistFilter)) {
+            return playlists.filter(function(playlist) {
+                return playlist.name === playlistFilter;
+            });
+        } else if (!Ember.isNone(preferenceFilter)) {
+            var playVotes = this.get('votes').filterBy('score', preferenceFilter);
+
+            return [{
+                name: 'Your selected ' + preferenceFilter + 's',
+                songs: playlists.getEach('songs').compact().reduce(function(a,b) { return a.concat(b); }).filter(function(song) {
+                            return playVotes.anyBy('song', song.id);
+                        })
+            }];
+        } else {
+            return this.get('playlists');
+        }
+    }.property('playlists', 'playlistFilter', 'preferenceFilter', 'votes'),
+    noSongsScored: function() {
+        return Ember.isEmpty(this.get('displayedPlaylists').getEach('songs').reduce(function(a,b) { return a.concat(b); }));
+    }.property('displayedPlaylists'),
     actions: {
-        clickShowCategory: function(categoryName) {
+        clickShowPlaylist: function(playlistName) {
             this.setProperties({
-                categoryFilter: categoryName.valueOf(),
+                playlistFilter: playlistName.valueOf(),
                 preferenceFilter: undefined
             });
         },
         clickShowAllSongs: function() {
             this.setProperties({
-                categoryFilter: undefined,
+                playlistFilter: undefined,
                 preferenceFilter: undefined
             });
         },
         clickShowPlays: function() {
             this.setProperties({
-                categoryFilter: undefined,
+                playlistFilter: undefined,
                 preferenceFilter: 'play',
             });
         },
@@ -94,8 +117,10 @@ CCCouple.SongController = Ember.ObjectController.extend({
             var vote = this.get('myVote');
             if (!Ember.isNone(vote)) {
                 vote.score = 'play';
-                this.notifyPropertyChange('votes');
-                dpd.votes.put(vote);
+                dpd.votes.put(vote, function(result, error) {
+                    self.notifyPropertyChange('votes');
+                    self.get('parentController').notifyPropertyChange('votes');
+                });
             } else {
                 vote = {
                     voter: this.get('userId'),
@@ -107,6 +132,7 @@ CCCouple.SongController = Ember.ObjectController.extend({
                         vote.id = result.id;
                         self.get('votes').addObject(vote);
                         self.notifyPropertyChange('votes');
+                        self.get('parentController').notifyPropertyChange('votes');
                     }
                 });
             }
@@ -118,8 +144,12 @@ CCCouple.SongController = Ember.ObjectController.extend({
             var vote = this.get('myVote');
             if (!Ember.isNone(vote)) {
                 vote.score = 'nay';
-                this.notifyPropertyChange('votes');
-                dpd.votes.put(vote);
+                dpd.votes.put(vote, function(result, error) {
+                    if (!Ember.isNone(result)) {
+                        self.notifyPropertyChange('votes');
+                        self.get('parentController').notifyPropertyChange('votes');
+                    }
+                });
             } else {
                 vote = {
                     voter: this.get('userId'),
@@ -162,7 +192,7 @@ CCCouple.FoundationRoute = Ember.Route.extend({
 
 CCCouple.GuestRequestsRoute = Ember.Route.extend({
     model: function() {
-        return this.modelFor('main').get('guest');
+        return this.modelFor('main').get('Guest Requests');
     }
 });
 

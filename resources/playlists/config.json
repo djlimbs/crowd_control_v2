@@ -9,29 +9,21 @@
 			"id": "name",
 			"order": 0
 		},
-		"songcategories": {
-			"name": "songcategories",
-			"type": "array",
-			"typeLabel": "array",
-			"required": false,
-			"id": "songcategories",
-			"order": 1
-		},
 		"description": {
 			"name": "description",
 			"type": "string",
 			"typeLabel": "string",
 			"required": false,
 			"id": "description",
-			"order": 2
+			"order": 1
 		},
-		"owner": {
-			"name": "owner",
-			"type": "string",
-			"typeLabel": "string",
+		"songs": {
+			"name": "songs",
+			"type": "array",
+			"typeLabel": "array",
 			"required": false,
-			"id": "owner",
-			"order": 3
+			"id": "songs",
+			"order": 2
 		}
 	}
 }

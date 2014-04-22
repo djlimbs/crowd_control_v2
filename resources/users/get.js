@@ -1,9 +1,9 @@
 var self = this;
 var voters = (me.guests) ? me.guests.push(me.id) : [me.id];
 if (me.userType === 'couple') {
-    dpd.playlists.get({'owner' : { $in : [null, me.id]}, $limitRecursion : 10}, function(playlists) {
-        playlists.forEach(function(playlist) {
-            self[playlist.name] = playlist;
+    dpd.tabs.get({'owner' : { $in : [null, me.id]}, $limitRecursion : 10}, function(tabs) {
+        tabs.forEach(function(tab) {
+            self[tab.name] = tab;
         });
     });
     

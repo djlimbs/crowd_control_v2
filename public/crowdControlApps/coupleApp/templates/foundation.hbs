@@ -6,8 +6,8 @@
 		  	</button>
 		  	<ul class="dropdown-menu" role="menu">
 		  		<li><a href="#" {{action "clickShowAllSongs"}}>All Songs</a></li>
-		  		{{#each allCategories}}
-		  			<li><a href="#" {{action "clickShowCategory" this}}>{{.}}</a></li>
+		  		{{#each allPlaylists}}
+		  			<li><a href="#" {{action "clickShowPlaylist" this}}>{{.}}</a></li>
 		  		{{/each}}
 		  		<li class="divider"></li>
 		  		<li><a href="#" {{action "clickShowPlays"}}>Just Plays</a></li>
@@ -20,7 +20,7 @@
 	<p>Hover over songs to tell the DJ to "Play" the track, say "Nay" if it's requested, or go "Either way"
 </div>
 {{#unless preferenceFilter}}
-	{{#each displayedCategories}}
+	{{#each displayedPlaylists}}
 		<div class="row text-center">
 			<div style="padding-bottom:10px;">
 				<h4 class="mb0">{{name}}</h4>
@@ -43,27 +43,30 @@
 	{{/each}}
 {{/unless}}
 {{#if preferenceFilter}}
-	<div class="row text-center">
-		<div style="padding-bottom:10px;">
-			<h4 class="mb0">{{preferenceText}}</h4>
-		</div>
-		{{#if noSongsRated}}
-			Nothing picked yet! See them <a href="#" {{action "clickShowAllSongs"}}>all</a> to start rating songs!
-		{{/if}}
-		{{#each displayedCategories}}
-			<div>
-				{{#each songs itemController="song"}}
-					<div class="song-choice">
-						<span>{{displayText}}</span>
-						<div class="rate">
-							<span class="clickable glyphicon glyphicon-music"></span> 
-							{{#unless isPlay}}&#8226; <small class="clickable" {{action "clickPlay"}}>Play</small> {{/unless}}
-							{{#unless isNay}}&#8226; <small class="clickable" {{action "clickNay"}}>Nay</small> {{/unless}}
-							&#8226; <small class="clickable" {{action "clickEitherWay"}}>Either Way</small>
-						</div>
-					</div>
-				{{/each}}
+	{{#each displayedPlaylists}}
+		<div class="row text-center">
+			<div style="padding-bottom:10px;">
+				<h4 class="mb0">{{name}}</h4>
+				<p><small><i class="text-muted">{{description}}</i></small></p>
 			</div>
-		{{/each}}
-	</div>
+		</div>
+		{{#if ../noSongsScored}}
+			<div class="row text-center">
+				<p>Nothing picked yet! See them <a href="#" {{action "clickShowAllSongs"}}>all</a> to start rating songs!</p>
+			</div>
+		{{/if}}
+		<div class="row text-center">
+			{{#each songs itemController="song"}}
+				<div class="song-choice">
+					<span>{{displayText}}</span>
+					<div class="rate">
+						<span class="clickable glyphicon glyphicon-music"></span> 
+						{{#unless isPlay}}&#8226; <small class="clickable" {{action "clickPlay"}}>Play</small> {{/unless}}
+						{{#unless isNay}}&#8226; <small class="clickable" {{action "clickNay"}}>Nay</small> {{/unless}}
+						&#8226; <small class="clickable" {{action "clickEitherWay"}}>Either Way</small>
+					</div>
+				</div>
+			{{/each}}
+		</div>
+	{{/each}}
 {{/if}}

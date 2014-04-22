@@ -15,9 +15,21 @@
 	<h3 class="pb0">See what your guests picked</h3>
 	<p>Here's a list of what your guests requested, thumbs up or veto them</p>
 
-	{{#each categories}}
-		{{#each songs itemController="song"}}
-			{{displayText}} {{rating}}
-		{{/each}}
+	{{#each playlists}}
+		<div class="row text-center">
+			{{#each songs itemController="song"}}
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+					<div class="song-choice">
+						<span {{bind-attr class="score"}}>{{displayText}}</span>
+						<div class="rate">
+							<span class="clickable glyphicon glyphicon-music"></span> 
+							&#8226; <small class="clickable" {{action "clickPlay"}}>Play</small> 
+							&#8226; <small class="clickable" {{action "clickNay"}}>Nay</small> 
+							&#8226; <small class="clickable" {{action "clickEitherWay"}}>Either Way</small>
+						</div>
+					</div>
+				</div>
+			{{/each}}
+		</div>
 	{{/each}}
 </div>

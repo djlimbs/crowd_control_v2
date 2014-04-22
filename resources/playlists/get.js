@@ -1,5 +1,3 @@
-dpd.songcategories.get({"id": { $in : this.songcategories }, $sort: {$natural: 1}}, function(songcategories) {
-    this.songcategories = songcategories;
+dpd.songs.get({"id" : { $in : this.songs }}, function(songs) {
+    this.songs = songs;
 });
-
-//hide('songcategories');
