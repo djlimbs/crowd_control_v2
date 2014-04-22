@@ -3,84 +3,69 @@ CCCouple = Ember.Application.create({
     rootElement: '#application',
 });
 
-
-Fixtures = Ember.Object.create({
-
-});
-
-CCCouple.CoupleData = Ember.Object.extend({
-
-});
-
-CCCouple.CoupleData.reopenClass({
-    getData: function() {
-        return new Ember.RSVP.Promise(function(resolve, reject) {
-            var coupleData = Ember.Object.create();
-            dpd.users.me(function(result, error) {
-                var emberObject = Ember.Object.create(result);
-                console.log(emberObject)
-                a = emberObject;
-            });
-           /* dpd.playlists.get(function(result, error) {
-                console.log('*** result')
-                console.log(result)
-                console.log('*** error')
-                console.log(error)
-                a = result;
-            });*/
-            console.log(coupleData);
-            resolve(PrototypeData);
-        });
+// Controllers
+CCCouple.MainController = Ember.ObjectController.extend({
+    actions: {
+        selectTab: function(name) {
+            this.set('selectedTab', this.get('tabs').findBy('name', name));
+        }
     }
 });
 
-// Controllers
-CCCouple.FoundationController = Ember.ObjectController.extend({
-    allCategories: function() {
-        return this.get('songs').getEach('categories').reduce(function(a,b) { return a.concat(b); }).uniq();
-    }.property('songs'),
-    displayedCategories: function() {
-        var songsData = this.get('songs');
-        var categoriesData = this.get('categoriesData');
-        var categoryFilter = this.get('categoryFilter');
-        var preferenceFilter = this.get('preferenceFilter');
-        var categoryList = !Ember.isNone(categoryFilter) ? Ember.A([categoryFilter]) : this.get('allCategories');
-        var categories = [];
-        categoryList.forEach(function(category) {
-            categories.addObject({
-                categoryName: category,
-                categoryDescription: categoriesData.findBy('name', category).description,
-                songs: songsData.filter(function(song) {
-                    return !Ember.isNone(preferenceFilter) ? song.categories.indexOf(category) !== -1 && song.rating === preferenceFilter 
-                                                                : song.categories.indexOf(category) !== -1;
-                })
-            });
-        });
 
-        return categories;
-    }.property('songs', 'categoryFilter', 'preferenceFilter'),
-    preferenceText: function() {
-        return this.get('preferenceFilter') === 'play' ? 'Plays' : 'Nays';
-    }.property('preferenceFilter'),
-    noSongsRated: function() {
-        return Ember.isEmpty(this.get('songs').filterBy('rating', this.get('preferenceFilter')));
-    }.property('songs', 'preferenceFilter'),
+CCCouple.TabController = Ember.ObjectController.extend({
+    needs: ['main'],
+    votesBinding: 'controllers.main.votes',
+    selectedTabBinding: 'controllers.main.selectedTab',
+    active: function() {
+        return this.get('name') === this.get('selectedTab').name;
+    }.property('selectedTab'),
+    allPlaylists: function() {
+        return Ember.isNone(this.get('playlists')) ? [] : this.get('playlists').getEach('name');
+    }.property('playlists'),
+    displayedPlaylists: function() {
+        var playlists = this.get('playlists');
+        var playlistFilter = this.get('playlistFilter');
+        var preferenceFilter = this.get('preferenceFilter');
+        if (!Ember.isNone(playlistFilter)) {
+            return playlists.filter(function(playlist) {
+                return playlist.name === playlistFilter;
+            });
+        } else if (!Ember.isNone(preferenceFilter)) {
+            var playVotes = this.get('votes').filterBy('score', preferenceFilter);
+
+            return [{
+                name: 'Your selected ' + preferenceFilter + 's',
+                songs: playlists.getEach('songs').compact().reduce(function(a,b) { return a.concat(b); }).filter(function(song) {
+                            return playVotes.anyBy('song', song.id);
+                        })
+            }];
+        } else {
+            return this.get('playlists');
+        }
+    }.property('playlists', 'playlistFilter', 'preferenceFilter', 'votes'),
+    noSongsScored: function() {
+        return Ember.isEmpty(this.get('displayedPlaylists').getEach('songs').reduce(function(a,b) { return a.concat(b); }));
+    }.property('displayedPlaylists'),
     actions: {
-        clickShowCategory: function(categoryName) {
+        clickSelectTab: function() {
+            this.send('selectTab', this.get('name'));
+        },
+        clickShowPlaylist: function(playlistName) {
             this.setProperties({
-                categoryFilter: categoryName.valueOf(),
+                playlistFilter: playlistName.valueOf(),
                 preferenceFilter: undefined
             });
         },
         clickShowAllSongs: function() {
             this.setProperties({
-                categoryFilter: undefined,
+                playlistFilter: undefined,
                 preferenceFilter: undefined
             });
         },
         clickShowPlays: function() {
             this.setProperties({
-                categoryFilter: undefined,
+                playlistFilter: undefined,
                 preferenceFilter: 'play',
             });
         },
@@ -94,27 +79,80 @@ CCCouple.FoundationController = Ember.ObjectController.extend({
 });
 
 CCCouple.SongController = Ember.ObjectController.extend({
-    isPlay: function() {
-        return this.get('rating') === 'play';
-    }.property('rating'),
-    isNay: function() {
-        return this.get('rating') === 'nay';
-    }.property('rating'),
+    needs: ['main'],
+    votesBinding: 'controllers.main.votes',
+    userIdBinding: 'controllers.main.id',
+    myVote: function() {
+        var self = this;
+        return this.get('votes').find(function(vote) {
+            return vote.voter === self.get('userId') && vote.song === self.get('id');
+        });
+    }.property('votes'),
+    score: function() {
+        return !Ember.isNone(this.get('myVote')) ? this.get('myVote').score : 'either way';
+    }.property('myVote'),
     actions: {
         clickPreview: function() {
 
         },
         clickPlay: function() {
-            this.set('rating', 'play');
-            this.get('parentController').notifyPropertyChange('songs');
+            var self = this;
+            var vote = this.get('myVote');
+            if (!Ember.isNone(vote)) {
+                vote.score = 'play';
+                dpd.votes.put(vote, function(result, error) {
+                    self.notifyPropertyChange('votes');
+                    self.get('parentController').notifyPropertyChange('votes');
+                });
+            } else {
+                vote = {
+                    voter: this.get('userId'),
+                    song: this.get('id'),
+                    score: 'play'
+                };
+                dpd.votes.post(vote, function(result, error) {
+                    if (!Ember.isNone(result)) {
+                        vote.id = result.id;
+                        self.get('votes').addObject(vote);
+                        self.notifyPropertyChange('votes');
+                        self.get('parentController').notifyPropertyChange('votes');
+                    }
+                });
+            }
+
+            
         },
         clickNay: function() {
-            this.set('rating', 'nay');
-            this.get('parentController').notifyPropertyChange('songs');
+            var self = this;
+            var vote = this.get('myVote');
+            if (!Ember.isNone(vote)) {
+                vote.score = 'nay';
+                dpd.votes.put(vote, function(result, error) {
+                    if (!Ember.isNone(result)) {
+                        self.notifyPropertyChange('votes');
+                        self.get('parentController').notifyPropertyChange('votes');
+                    }
+                });
+            } else {
+                vote = {
+                    voter: this.get('userId'),
+                    song: this.get('id'),
+                    score: 'nay'
+                };
+                dpd.votes.post(vote, function(result, error) {
+                    if (!Ember.isNone(result)) {
+                        vote.id = result.id;
+                        self.get('votes').addObject(vote);
+                        self.notifyPropertyChange('votes');
+                    }
+                });
+            }
         },
         clickEitherWay: function() {
-            this.set('rating', 'either-way');
-            this.get('parentController').notifyPropertyChange('songs');
+            var vote = this.get('myVote');
+            this.get('votes').removeObject(vote);
+            if (!Ember.isNone(vote.id)) { dpd.votes.del(vote.id); }
+            this.notifyPropertyChange('votes');
         }
     }
 });
@@ -122,38 +160,26 @@ CCCouple.SongController = Ember.ObjectController.extend({
 // Routes
 CCCouple.MainRoute = Ember.Route.extend({
     model: function() {
-        return CCCouple.CoupleData.getData();
+        return new Ember.RSVP.Promise(function(resolve, reject) {
+            var coupleData = Ember.Object.create();
+            dpd.users.me(function(result, error) {
+                var emberObject = Ember.Object.create(result);
+                resolve(emberObject);
+            });
+        });
     },
-    afterModel: function() {
-        this.transitionTo('foundation');
+    setupController: function(controller, model) {
+        controller.setProperties({
+            model: model,
+            selectedTab: model.get('tabs')[0]
+        });
     }
 });
 
-CCCouple.FoundationRoute = Ember.Route.extend({
-    model: function() {
-        return this.modelFor('main');
-    }
-});
-
-CCCouple.GuestRequestsRoute = Ember.Route.extend({
-    model: function() {
-        return this.modelFor('main');
-    }
-});
-
-CCCouple.DjSuggestionsRoute = Ember.Route.extend({
-    model: function() {
-        return this.modelFor('main');
-    }
-});
 
 // Router
 CCCouple.Router.map(function() {
-    this.resource('main', { path: '/' }, function() {
-        this.resource('foundation', { path: '/foundation'});
-        this.resource('guestRequests', { path: '/guestRequests'});
-        this.resource('djSuggestions', { path: '/djSuggestions'});
-    });
+    this.resource('main', { path: '/' });
 });
 
 // This setting disables the detail routing from showing up in the navbar.

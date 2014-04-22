@@ -32,6 +32,22 @@
 			"required": false,
 			"id": "owner",
 			"order": 3
+		},
+		"header": {
+			"name": "header",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "header",
+			"order": 4
+		},
+		"order": {
+			"name": "order",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "order",
+			"order": 5
 		}
 	}
 }
