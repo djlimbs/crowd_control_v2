@@ -1,0 +1,29 @@
+{
+	"type": "Collection",
+	"properties": {
+		"voter": {
+			"name": "voter",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "voter",
+			"order": 0
+		},
+		"song": {
+			"name": "song",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "song",
+			"order": 1
+		},
+		"score": {
+			"name": "score",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "score",
+			"order": 2
+		}
+	}
+}

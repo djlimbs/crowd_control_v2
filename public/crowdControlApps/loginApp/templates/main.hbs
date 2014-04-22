@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="header clearfix">
+        <ul class="nav nav-pills pull-right">
+          	<li class="active">
+            	<a href="#">Login</a>
+          	</li>
+          	<li>
+            	<a href="#">About</a>
+          	</li>
+          	<li>
+            	<a href="#">Contact</a>
+          	</li>
+        </ul>
+        
+    </div>
+	<div class="login-form">
+        <h2 class="form-signin-heading">Come on in</h2>
+        {{input type="text" class="form-control mb10" placeholder="Email address" value=username}}
+        {{input type="password" class="form-control" placeholder="Password" value=password}}
+        <label class="checkbox">
+          	<input type="checkbox" value="remember-me"> Remember me
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" {{action "clickSignIn"}}>Sign in</button>
+    </div>
+	<div class="footer">
+		<p>&copy; Erika 2014</p>
+	</div>
+</div>

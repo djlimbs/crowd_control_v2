@@ -1,0 +1,61 @@
+.login-form {
+	width: 33.3%;
+	margin: auto;
+}
+
+.song-choice {
+	padding-bottom: 10px;
+}
+
+.rate {
+	visibility: hidden;
+}
+
+.song-choice:hover .rate {
+	visibility: visible;
+	color: black;
+	font-weight:normal;
+}
+
+.play {
+	font-weight: bolder;
+}
+
+.nay {
+	color:gray;
+	text-decoration:line-through;
+}
+
+.either-way {
+	font-weight: normal;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.pb0 {
+	padding-bottom: 0px !important;
+}
+
+.mb10 {
+	margin-bottom: 10px !important;
+}
+
+.mb0 {
+	margin-bottom: 0px !important;
+}
+
+.main-label {
+	margin-top: 10px !important;
+	font-size:14pt;
+	font-weight: bold;
+}
+
+.vam {
+	vertical-align: middle;
+}
+
+.menu-items {
+	margin-top: 8px !important;
+}

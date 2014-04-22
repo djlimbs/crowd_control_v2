@@ -1,0 +1,29 @@
+{
+	"type": "UserCollection",
+	"properties": {
+		"eventDate": {
+			"name": "eventDate",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "eventDate",
+			"order": 0
+		},
+		"userType": {
+			"name": "userType",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "userType",
+			"order": 1
+		},
+		"guests": {
+			"name": "guests",
+			"type": "array",
+			"typeLabel": "array",
+			"required": false,
+			"id": "guests",
+			"order": 2
+		}
+	}
+}
