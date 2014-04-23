@@ -3,6 +3,10 @@
 	padding-bottom: 0px !important;
 }
 
+.mt10 {
+    margin-top: 10px !important;
+}
+
 .mb10 {
 	margin-bottom: 10px !important;
 }
@@ -19,12 +23,16 @@
 	width: 25% !important;
 }
 
-.w75 {
-	width: 80% !important;
+.w40 {
+    width: 40% !important;
 }
 
 .w50 {
-	width: 50% !important;
+    width: 50% !important;
+}
+
+.w75 {
+	width: 80% !important;
 }
 
 .w100 {
@@ -123,6 +131,10 @@ body .select2-drop,body .bootstrap-scope .input-group-addon {
 }
 
 /* Page specific */
+.alphabet-links {
+    width: 3.2%;
+}
+
 .login-form {
 	width: 33.3%;
 	margin: auto;

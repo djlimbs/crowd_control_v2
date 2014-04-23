@@ -1,0 +1,64 @@
+<div class="header" style="margin-top:19px;">
+    <h3 class="pb0">Edit Playlists</h3>
+</div>
+<div class="">
+    <ol class="breadcrumb text-center mb0">
+        {{#each Fixtures.letters itemController="letter"}}
+            <li class="alphabet-links">
+                <a href="#" {{action "clickFilterByLetter" this}}>
+                    {{#if isFilter}}
+                        <strong>{{model}}</strong>
+                    {{else}}
+                        {{model}}
+                    {{/if}}
+                </a>
+            </li>
+        {{/each}}
+    </ol>
+    {{#if letterFilter}}
+        <button type="button" class="pull-left btn btn-xs btn-link" {{action "clickClearFilter" bubbles=false}}>
+            Clear filter
+        </button>
+    {{/if}}
+</div>
+
+<table class="table table-hover w100">
+    <thead>
+        <tr>
+            <th class="w25">Name</th>
+            <th class="w25">Tags</th>
+        </th>
+    </thead>
+    <tbody>
+        {{#each itemController="playlist"}}
+            <tr class="clickable-row" {{action "clickEdit" bubbles=false}}>
+                {{#if isEdit}}
+                    <td {{bind-attr class=":w25 has-error"}}>
+                        {{input class="form-control w50"type="text" value=nameEdit}}
+                        {{#if isNew}}
+                            <button type="button" class="pull-left btn btn-default mt10" {{action "clickDone" "true" bubbles=false}}>
+                                Save and New
+                            </button> 
+                        {{/if}}
+                    </td>
+                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} <button class="btn btn-default" {{action "clickDone" this bubbles=false}}>Done</button> </td>  
+                {{else}}  
+                    <td class="w25"><span class="glyphicon glyphicon-trash table-remove" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
+                    <td class="w25">{{tags}} </td>
+                {{/if}}            
+            </tr>
+        {{/each}}
+    </tbody>
+</table>  
+
+{{#unless hasNew}}
+    <button type="button" class="pull-left btn btn-default" {{action "clickAdd" bubbles=false}}>
+        Add Artist
+    </button>
+{{/unless}}
+<div style="padding-right:87px;">
+    <ul class="pager" >
+        <li {{bind-attr class="isPrevDisabled:disabled"}} {{action "clickPrevPage"}}><a href="#">Previous</a></li>
+        <li {{bind-attr class="isNextDisabled:disabled"}} {{action "clickNextPage"}}><a href="#">Next</a></li>
+    </ul>
+</div>
