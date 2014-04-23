@@ -2,9 +2,11 @@
 	<div class="clearfix">
 		<span class="pull-right main-label">Crowd Control</span>
 		<ul class="nav nav-tabs">
-            <li class="active"><a href="#">Edit Songs</a></li>
-            <li class="active"><a href="#">Edit Playlists</a></li>
-            <li class="active"><a href="#">Edit Tabs</a></li>
+            {{#link-to "artists" tagName="li"}}<a href="#">Edit Artists</a>{{/link-to}}
+            {{#link-to "songs" tagName="li"}}<a href="#">Edit Songs</a>{{/link-to}}
+            {{#link-to "playlists" tagName="li"}}<a href="#">Edit Playlists</a>{{/link-to}}
+            {{#link-to "tabs" tagName="li"}}<a href="#">Edit Tabs</a>{{/link-to}}
+            {{#link-to "users" tagName="li"}}<a href="#">Edit Users</a>{{/link-to}}
 	    </ul>
 	</div>
 	

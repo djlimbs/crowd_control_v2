@@ -171,7 +171,7 @@ CCCouple.MainRoute = Ember.Route.extend({
     setupController: function(controller, model) {
         controller.setProperties({
             model: model,
-            selectedTab: model.get('tabs')[0]
+            selectedTab: !Ember.isNone(model.get('tabs')) ? model.get('tabs')[0] : undefined
         });
     }
 });

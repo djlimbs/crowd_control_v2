@@ -1,3 +1,128 @@
+/* General helpers */
+.pb0 {
+	padding-bottom: 0px !important;
+}
+
+.mb10 {
+	margin-bottom: 10px !important;
+}
+
+.mb0 {
+	margin-bottom: 0px !important;
+}
+
+.vam {
+	vertical-align: middle;
+}
+
+.w25 {
+	width: 25% !important;
+}
+
+.w75 {
+	width: 80% !important;
+}
+
+.w50 {
+	width: 50% !important;
+}
+
+.w100 {
+	width: 100% !important;
+}
+
+.table-remove {
+	display: none !important;
+}
+
+tr:hover .table-remove {
+	opacity: 0.5;
+	display: inline-block !important;
+}
+
+.clickable-row:hover {
+	cursor: pointer;
+}
+
+.table-remove:hover {
+	opacity: 1.0 !important;
+}
+/* Select2 mods */
+
+.select2-search-choice-close {
+    background: url('../lib/select2/css/select2.png') right top no-repeat!important;
+}
+
+body .bootstrap-scope .select2-container {
+    min-width: 200px;
+}
+
+.chopMinWidth {
+    min-width: 0px !important;
+}
+
+body .bootstrap-scope .select2-container-multi .select2-choices {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    color: #555;
+    border-radius: 4px;
+    background: #fff;
+    border-color: #cfd0d2;
+}
+
+body .bootstrap-scope .select2-container.select2-dropdown-open .select2-choices {
+    border-radius: 4px 4px 0 0;
+}
+
+body .bootstrap-scope .select2-container-multi.select2-container-active .select2-choices, body .bootstrap-scope .select2-drop-active {
+    border-color: #ccc;
+    background: #fff;
+}
+
+body .bootstrap-scope .select2-container-multi.select2-container-active .select2-choices {
+    box-shadow: none;
+}
+
+body .bootstrap-scope .select2-results .select2-highlighted {
+    background: #2A94D6;
+}
+
+body .bootstrap-scope .select2-container-multi .select2-choices .select2-search-choice {
+    background: #fff;
+    box-shadow: none;
+    padding: 4px 5px 4px 18px;
+    margin: 4px 0 3px 4px;
+}
+
+body .bootstrap-scope .select2-container a.select2-choice {
+    height: 32px;
+    line-height: 30px;
+}
+
+body .select2-results {
+    font-family: 'helvetica neue', helvetica, arial, sans-serif!important;
+    font-size: 14px;
+}
+
+body .select2-input {
+    border-radius: 4px!important;
+}
+
+.select2-results .select2-highlighted {
+    background: #f5f7f9!important;
+    color: #293f54!important;
+}
+
+body .select2-drop,body .bootstrap-scope .input-group-addon {
+    color: #293f54!important;
+}
+
+.select2-drop-active {
+    border: 1px solid #2A94D6;
+    border-top: none;
+}
+
+/* Page specific */
 .login-form {
 	width: 33.3%;
 	margin: auto;
@@ -34,26 +159,10 @@
 	cursor: pointer;
 }
 
-.pb0 {
-	padding-bottom: 0px !important;
-}
-
-.mb10 {
-	margin-bottom: 10px !important;
-}
-
-.mb0 {
-	margin-bottom: 0px !important;
-}
-
 .main-label {
 	margin-top: 10px !important;
 	font-size:14pt;
 	font-weight: bold;
-}
-
-.vam {
-	vertical-align: middle;
 }
 
 .menu-items {

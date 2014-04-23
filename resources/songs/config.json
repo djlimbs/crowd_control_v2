@@ -25,12 +25,12 @@
 			"id": "title",
 			"order": 2
 		},
-		"searchTags": {
-			"name": "searchTags",
-			"type": "string",
-			"typeLabel": "string",
+		"tags": {
+			"name": "tags",
+			"type": "array",
+			"typeLabel": "array",
 			"required": false,
-			"id": "searchTags",
+			"id": "tags",
 			"order": 3
 		}
 	}

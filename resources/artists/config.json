@@ -1,20 +1,20 @@
 {
 	"type": "Collection",
 	"properties": {
-		"artistName": {
-			"name": "artistName",
+		"name": {
+			"name": "name",
 			"type": "string",
 			"typeLabel": "string",
 			"required": true,
-			"id": "artistName",
+			"id": "name",
 			"order": 0
 		},
-		"searchTags": {
-			"name": "searchTags",
+		"tags": {
+			"name": "tags",
 			"type": "array",
 			"typeLabel": "array",
 			"required": false,
-			"id": "searchTags",
+			"id": "tags",
 			"order": 1
 		}
 	}

@@ -20,7 +20,9 @@ CCLogin.MainRoute = Ember.Route.extend({
             		dpd.users.get(result.uid, {'onlyUserType': true}, function(me) {
             			if (me.userType === 'couple') {
             				window.location.href = 'couples.html';
-            			}
+            			} else if (me.userType === 'admin') {
+                            window.location.href = 'admin.html';
+                        }
             		});
             	}
             });
