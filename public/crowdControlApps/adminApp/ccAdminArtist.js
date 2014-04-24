@@ -74,7 +74,7 @@ CCAdmin.ArtistsController = Ember.ArrayController.extend({
 CCAdmin.ArtistController = Ember.ObjectController.extend({
     actions: {
         clickEdit: function() {
-            if (this.get('isNew') !== true) {
+            if (this.get('isNew') !== true) { // To prevent weirdness when clicking on a new artist's row.
                 this.send('clearEdits');
                 this.setProperties({
                     isEdit: true,
@@ -92,22 +92,30 @@ CCAdmin.ArtistController = Ember.ObjectController.extend({
                     nameError: undefined,
                     isEdit: undefined,
                     isNew: undefined,
-                    name: this.get('nameEdit'),
-                    tags: !Ember.isEmpty(this.get('tagsEdit')) ? this.get('tagsEdit').split(',') : []
                 });
 
                 if (!Ember.isNone(this.get('id'))) {
-                    dpd.artists.put(this.get('content'));
-                } else {
-                    dpd.artists.post(this.get('content'), function(result, error) {
+                    dpd.artists.put({
+                        id: this.get('id'),
+                        name: this.get('nameEdit'),
+                        tags: !Ember.isEmpty(this.get('tagsEdit')) ? this.get('tagsEdit').split(',') : []
+                    }, function(result, error) {
                         if (!Ember.isNone(result)) {
-                            self.set('id', result.id);
+                            self.setProperties(result);
+                        }
+                    });
+                } else {
+                    dpd.artists.post({
+                        name: this.get('nameEdit'),
+                        tags: !Ember.isEmpty(this.get('tagsEdit')) ? this.get('tagsEdit').split(',') : []
+                    }, function(result, error) {
+                        if (!Ember.isNone(result)) {
+                            self.setProperties(result);
                         }
                     });
                 }
 
                 if (addAnother === "true") {
-                    console.log('add another')
                     this.send('clickAdd');
                 }
             }

@@ -10,13 +10,38 @@ Fixtures = Ember.Object.create({
 
 // Components
 CCAdmin.Select2Component = Ember.TextField.extend({
+    attributeBindings: ['objectQuery'],
     didInsertElement: function() {
-        this.$().select2({
-            dropdownCss: {display: 'none'},
+        var items = this.get('value');
+        var objectQuery = this.get('objectQuery');
+        var options = {
             width: 'element',
             tags: [],
             tokenSeparators: [',']
-        });
+        };
+
+        if (!Ember.isNone(objectQuery)) {
+            options.query = function(query) {
+                dpd(objectQuery).get({name: {$regex:  '(?i)' + query.term + '\w*'}}, function(result, error) {
+                    if (!Ember.isEmpty(result)) {
+                        query.callback({ results : result.map(function(item) { return { id: item.id, text: item.name }}) });
+
+                    }
+
+                    if (!Ember.isNone(error)) {
+                        console.log(error);
+                    }
+                });
+            };
+
+            options.initSelection = function(e, callback) {
+                callback(items.map(function(item) { return { id: item.id, text: item.name}}));
+            };
+        } else {
+            options.dropdownCss = { display: 'none' };
+        }
+
+        this.$().select2(options);
     }
 });
 
@@ -33,9 +58,7 @@ CCAdmin.MainController = Ember.ObjectController.extend({
 });
 
 CCAdmin.LetterController = Ember.ObjectController.extend({
-    needs: ['artists'],
-    letterFilterBinding: 'controllers.artists.letterFilter',
     isFilter: function() { 
-        return this.get('letterFilter') === this.get('content');
-    }.property('letterFilter')
+        return this.get('parentController').get('letterFilter') === this.get('content');
+    }.property('parentController.letterFilter')
 });

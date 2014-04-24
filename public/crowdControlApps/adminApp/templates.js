@@ -601,11 +601,12 @@ function program9(depth0,data) {
   stack2 = helpers['if'].call(depth0, "isNew", {hash:{},inverse:self.noop,fn:self.program(10, program10, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n                    </td>\n                    <td class=\"w25\">");
-  hashContexts = {'multiple': depth0,'value': depth0};
-  hashTypes = {'multiple': "STRING",'value': "ID"};
+  hashContexts = {'multiple': depth0,'value': depth0,'objectQuery': depth0};
+  hashTypes = {'multiple': "STRING",'value': "ID",'objectQuery': "STRING"};
   options = {hash:{
     'multiple': ("multiple"),
-    'value': ("artistsEdit")
+    'value': ("artistsEdit"),
+    'objectQuery': ("artists")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['select-2'] || (depth0 && depth0['select-2'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "select-2", options))));
   data.buffer.push("</td>\n                    <td class=\"w25\">");

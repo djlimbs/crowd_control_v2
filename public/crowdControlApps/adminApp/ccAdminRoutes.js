@@ -21,11 +21,10 @@ CCAdmin.ArtistsRoute = Ember.Route.extend({
             var searchLimit = Fixtures.get('searchLimit');
             dpd.artists.get({$sort: {name: 1}, $limit: searchLimit + 1}, function(result, error) {
                 if (!Ember.isNone(result)) {
-                    var model = {
-                        artists: result.slice(0, searchLimit)
-                    };
-                    result.length === searchLimit + 1 ? model.hasNext = true : model.hasNext = false;
-                    resolve(model);
+                    resolve({
+                        items: result.slice(0, searchLimit),
+                        hasNext: result.length === searchLimit + 1
+                    });
                 } else if (!Ember.isNone(error)) {
                     reject(error);
                 }
@@ -34,8 +33,9 @@ CCAdmin.ArtistsRoute = Ember.Route.extend({
     },
     setupController: function(controller, model) {
         controller.setProperties({
-            model: model.artists,
-            hasNext: model.hasNext
+            model: model.items,
+            hasNext: model.hasNext,
+            letterFilter: undefined
         });
     },
     actions: {
@@ -50,14 +50,24 @@ CCAdmin.ArtistsRoute = Ember.Route.extend({
 CCAdmin.SongsRoute = Ember.Route.extend({
     model: function() {
         return new Ember.RSVP.Promise(function(resolve, reject) {
-            dpd.songs.get({$sort: {name: 1 }, $limit: 20}, function(result, error) {
+            var searchLimit = Fixtures.get('searchLimit');
+            dpd.songs.get({$sort: {name: 1 }, $limit: searchLimit + 1}, function(result, error) {
                 if (!Ember.isNone(result)) {
-                    console.log(result)
-                    resolve(result);
+                    resolve({
+                        items: result.slice(0, searchLimit),
+                        hasNext: result.length === searchLimit + 1
+                    });
                 } else if (!Ember.isNone(error)) {
                     reject(error);
                 }
             });
+        });
+    },
+    setupController: function(controller, model) {
+        controller.setProperties({
+            model: model.items,
+            hasNext: model.hasNext,
+            letterFilter: undefined
         });
     },
     actions: {

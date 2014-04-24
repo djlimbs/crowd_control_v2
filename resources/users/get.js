@@ -6,6 +6,6 @@ if (me.userType === 'couple') {
     });
     
     dpd.votes.get({'voter' : { $in : voters}}, function(votes) {
-        this.votes = votes;
+        this.votes = votes || [];
     });
 }

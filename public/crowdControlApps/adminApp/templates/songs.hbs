@@ -43,7 +43,7 @@
                             </button>
                         {{/if}}
                     </td>
-                    <td class="w25">{{select-2 multiple="multiple" value=artistsEdit}}</td>
+                    <td class="w25">{{select-2 multiple="multiple" value=artistsEdit objectQuery="artists"}}</td>
                     <td class="w25">{{input class="form-control w100"type="text" value=titleEdit}}</td>
                     <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} <button class="btn btn-default" {{action "clickDone" this bubbles=false}}>Done</button> </td>  
                 {{else}}  
