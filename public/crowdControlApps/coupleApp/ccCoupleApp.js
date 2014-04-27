@@ -151,7 +151,7 @@ CCCouple.SongController = Ember.ObjectController.extend({
         clickEitherWay: function() {
             var vote = this.get('myVote');
             this.get('votes').removeObject(vote);
-            if (!Ember.isNone(vote.id)) { dpd.votes.del(vote.id); }
+            if (!Ember.isNone(vote) && !Ember.isNone(vote.id)) { dpd.votes.del(vote.id); }
             this.notifyPropertyChange('votes');
         }
     }

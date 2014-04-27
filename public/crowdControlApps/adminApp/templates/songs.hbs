@@ -25,9 +25,13 @@
 <table class="table table-hover w100">
     <thead>
         <tr>
+            <th class="w25 clickable" {{action "clickSortBy" "artists"}}>Artists 
+                <span {{bind-attr class=":glyphicon :glyphicon-sort-by-alphabet isSortByArtists::column-sort"}}></span>
+            </th>
+            <th class="w25 clickable" {{action "clickSortBy" "title"}}>Title 
+                <span {{bind-attr class=":glyphicon :glyphicon-sort-by-alphabet isSortByTitle::column-sort"}}>
+            </th>
             <th class="w25">Display Text</th>
-            <th class="w25">Artists</th>
-            <th class="w25">Title</th>
             <th class="w25">Tags</th>
         </th>
     </thead>
@@ -35,21 +39,29 @@
         {{#each itemController="song"}}
             <tr class="clickable-row" {{action "clickEdit" bubbles=false}}>
                 {{#if isEdit}}
-                    <td {{bind-attr class=":w25 has-error"}}>
-                        {{input class="form-control w100"type="text" value=displayTextEdit}}
+                    <td {{bind-attr class=":w25 artistsError:has-error"}}>
+                        {{select-2 multiple="multiple" value=artistsEdit data=artists objectQuery="artists" tabindex="1"}}
                         {{#if isNew}}
-                            <button type="button" class="pull-left btn btn-default mt10" {{action "clickDone" "true" bubbles=false}}>
+                            <button type="button" class="btn btn-default mt10" {{action "clickDone" "true" bubbles=false}} tabindex="5">
                                 Save and New
-                            </button>
+                            </button> 
+                            <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="6">Done</button>
+                            <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="7">Cancel</button>
+                            {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
+                        {{else}}
+                            <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="5">Done</button>
+                            <button class="btn btn-default mt10" {{action "clickDelete" this bubbles=false}} tabindex="6">Delete</button>
+                            <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="7">Cancel</button>
+                            {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
                         {{/if}}
                     </td>
-                    <td class="w25">{{select-2 multiple="multiple" value=artistsEdit objectQuery="artists"}}</td>
-                    <td class="w25">{{input class="form-control w100"type="text" value=titleEdit}}</td>
-                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} <button class="btn btn-default" {{action "clickDone" this bubbles=false}}>Done</button> </td>  
+                    <td {{bind-attr class=":w25 titleError:has-error"}}>{{input class="form-control w100"type="text" value=titleEdit tabindex="2"}}</td>
+                    <td {{bind-attr class=":w25 displayTextError:has-error"}}>{{input class="form-control w100"type="text" value=displayTextEdit tabindex="3"}}</td>
+                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit tabindex="4"}}</td>  
                 {{else}}  
-                    <td class="w25"><span class="glyphicon glyphicon-trash table-remove" {{action "clickDelete" this bubbles=false}}></span>  {{displayText}}</td>
-                    <td class="w25">{{artistsDisplayText}} </td>
+                    <td class="w25"><span class="glyphicon glyphicon-trash table-remove" {{action "clickDelete" this bubbles=false}}></span>  {{artists}}</td>
                     <td class="w25">{{title}} </td>
+                    <td class="w25">{{displayText}} </td>
                     <td class="w25">{{tags}} </td>
                 {{/if}}            
             </tr>

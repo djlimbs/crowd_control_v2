@@ -65,7 +65,7 @@ function program8(depth0,data) {
   data.buffer.push(">\n                ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isEdit", {hash:{},inverse:self.program(12, program12, data),fn:self.program(9, program9, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isEdit", {hash:{},inverse:self.program(15, program15, data),fn:self.program(9, program9, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("            \n            </tr>\n        ");
   return buffer;
@@ -81,50 +81,103 @@ function program9(depth0,data) {
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['bind-attr'] || (depth0 && depth0['bind-attr'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "bind-attr", options))));
   data.buffer.push(">\n                        ");
-  hashContexts = {'class': depth0,'type': depth0,'value': depth0};
-  hashTypes = {'class': "STRING",'type': "STRING",'value': "ID"};
+  hashContexts = {'class': depth0,'type': depth0,'value': depth0,'tabindex': depth0};
+  hashTypes = {'class': "STRING",'type': "STRING",'value': "ID",'tabindex': "STRING"};
   options = {hash:{
     'class': ("form-control w50"),
     'type': ("text"),
-    'value': ("nameEdit")
+    'value': ("nameEdit"),
+    'tabindex': ("1")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("\n                        ");
   hashTypes = {};
   hashContexts = {};
-  stack2 = helpers['if'].call(depth0, "isNew", {hash:{},inverse:self.noop,fn:self.program(10, program10, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack2 = helpers['if'].call(depth0, "isNew", {hash:{},inverse:self.program(13, program13, data),fn:self.program(10, program10, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n                    </td>\n                    <td class=\"w25\">");
-  hashContexts = {'multiple': depth0,'value': depth0};
-  hashTypes = {'multiple': "STRING",'value': "ID"};
+  hashContexts = {'multiple': depth0,'value': depth0,'tabindex': depth0};
+  hashTypes = {'multiple': "STRING",'value': "ID",'tabindex': "STRING"};
   options = {hash:{
     'multiple': ("multiple"),
-    'value': ("tagsEdit")
+    'value': ("tagsEdit"),
+    'tabindex': ("2")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['select-2'] || (depth0 && depth0['select-2'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "select-2", options))));
-  data.buffer.push(" <button class=\"btn btn-default\" ");
-  hashContexts = {'bubbles': depth0};
-  hashTypes = {'bubbles': "BOOLEAN"};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDone", "", {hash:{
-    'bubbles': (false)
-  },contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">Done</button> </td>  \n                ");
+  data.buffer.push("</td>  \n                ");
   return buffer;
   }
 function program10(depth0,data) {
   
-  var buffer = '', hashContexts, hashTypes;
-  data.buffer.push("\n                            <button type=\"button\" class=\"pull-left btn btn-default mt10\" ");
+  var buffer = '', stack1, hashContexts, hashTypes;
+  data.buffer.push("\n                            <button type=\"button\" class=\"btn btn-default mt10\" ");
   hashContexts = {'bubbles': depth0};
   hashTypes = {'bubbles': "BOOLEAN"};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDone", "true", {hash:{
     'bubbles': (false)
   },contexts:[depth0,depth0],types:["STRING","STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\n                                Save and New\n                            </button> \n                        ");
+  data.buffer.push(" tabindex=\"3\">\n                                Save and New\n                            </button> \n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDone", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"4\">Done</button>\n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clearEdits", "", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"5\">Cancel</button>\n                            ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "doneError", {hash:{},inverse:self.noop,fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n                        ");
+  return buffer;
+  }
+function program11(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("<div class=\"mt10 red\">");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "doneError", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</div>");
   return buffer;
   }
 
-function program12(depth0,data) {
+function program13(depth0,data) {
+  
+  var buffer = '', stack1, hashContexts, hashTypes;
+  data.buffer.push("\n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDone", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"3\">Done</button>\n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDelete", "", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"4\">Delete</button>\n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clearEdits", "", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"5\">Cancel</button>\n                            ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "doneError", {hash:{},inverse:self.noop,fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n                        ");
+  return buffer;
+  }
+
+function program15(depth0,data) {
   
   var buffer = '', hashContexts, hashTypes;
   data.buffer.push("  \n                    <td class=\"w25\"><span class=\"glyphicon glyphicon-trash table-remove\" ");
@@ -145,7 +198,7 @@ function program12(depth0,data) {
   return buffer;
   }
 
-function program14(depth0,data) {
+function program17(depth0,data) {
   
   var buffer = '', hashContexts, hashTypes;
   data.buffer.push("\n    <button type=\"button\" class=\"pull-left btn btn-default\" ");
@@ -170,7 +223,7 @@ function program14(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "letterFilter", {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n</div>\n\n<table class=\"table table-hover w100\">\n    <thead>\n        <tr>\n            <th class=\"w25\">Name</th>\n            <th class=\"w25\">Tags</th>\n        </th>\n    </thead>\n    <tbody>\n        ");
+  data.buffer.push("\n</div>\n\n<table class=\"table table-hover w100\">\n    <thead>\n        <tr>\n            <th class=\"w25\">Name <span class=\"glyphicon glyphicon-sort-by-alphabet\"></span></th>\n            <th class=\"w25\">Tags</th>\n        </th>\n    </thead>\n    <tbody>\n        ");
   hashContexts = {'itemController': depth0};
   hashTypes = {'itemController': "STRING"};
   stack1 = helpers.each.call(depth0, {hash:{
@@ -180,7 +233,7 @@ function program14(depth0,data) {
   data.buffer.push("\n    </tbody>\n</table>  \n\n");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "hasNew", {hash:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.unless.call(depth0, "hasNew", {hash:{},inverse:self.noop,fn:self.program(17, program17, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n<div style=\"padding-right:87px;\">\n    <ul class=\"pager\" >\n        <li ");
   hashContexts = {'class': depth0};
@@ -507,7 +560,7 @@ function program14(depth0,data) {
 Ember.TEMPLATES["songs"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashContexts, hashTypes, options, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+  var buffer = '', stack1, stack2, hashContexts, hashTypes, options, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
   
@@ -571,7 +624,7 @@ function program8(depth0,data) {
   data.buffer.push(">\n                ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "isEdit", {hash:{},inverse:self.program(12, program12, data),fn:self.program(9, program9, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "isEdit", {hash:{},inverse:self.program(15, program15, data),fn:self.program(9, program9, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("            \n            </tr>\n        ");
   return buffer;
@@ -583,72 +636,142 @@ function program9(depth0,data) {
   hashContexts = {'class': depth0};
   hashTypes = {'class': "STRING"};
   options = {hash:{
-    'class': (":w25 has-error")
+    'class': (":w25 artistsError:has-error")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['bind-attr'] || (depth0 && depth0['bind-attr'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "bind-attr", options))));
   data.buffer.push(">\n                        ");
-  hashContexts = {'class': depth0,'type': depth0,'value': depth0};
-  hashTypes = {'class': "STRING",'type': "STRING",'value': "ID"};
-  options = {hash:{
-    'class': ("form-control w100"),
-    'type': ("text"),
-    'value': ("displayTextEdit")
-  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
-  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
-  data.buffer.push("\n                        ");
-  hashTypes = {};
-  hashContexts = {};
-  stack2 = helpers['if'].call(depth0, "isNew", {hash:{},inverse:self.noop,fn:self.program(10, program10, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
-  data.buffer.push("\n                    </td>\n                    <td class=\"w25\">");
-  hashContexts = {'multiple': depth0,'value': depth0,'objectQuery': depth0};
-  hashTypes = {'multiple': "STRING",'value': "ID",'objectQuery': "STRING"};
+  hashContexts = {'multiple': depth0,'value': depth0,'data': depth0,'objectQuery': depth0,'tabindex': depth0};
+  hashTypes = {'multiple': "STRING",'value': "ID",'data': "ID",'objectQuery': "STRING",'tabindex': "STRING"};
   options = {hash:{
     'multiple': ("multiple"),
     'value': ("artistsEdit"),
-    'objectQuery': ("artists")
+    'data': ("artists"),
+    'objectQuery': ("artists"),
+    'tabindex': ("1")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['select-2'] || (depth0 && depth0['select-2'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "select-2", options))));
-  data.buffer.push("</td>\n                    <td class=\"w25\">");
-  hashContexts = {'class': depth0,'type': depth0,'value': depth0};
-  hashTypes = {'class': "STRING",'type': "STRING",'value': "ID"};
+  data.buffer.push("\n                        ");
+  hashTypes = {};
+  hashContexts = {};
+  stack2 = helpers['if'].call(depth0, "isNew", {hash:{},inverse:self.program(13, program13, data),fn:self.program(10, program10, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
+  data.buffer.push("\n                    </td>\n                    <td ");
+  hashContexts = {'class': depth0};
+  hashTypes = {'class': "STRING"};
+  options = {hash:{
+    'class': (":w25 titleError:has-error")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['bind-attr'] || (depth0 && depth0['bind-attr'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "bind-attr", options))));
+  data.buffer.push(">");
+  hashContexts = {'class': depth0,'type': depth0,'value': depth0,'tabindex': depth0};
+  hashTypes = {'class': "STRING",'type': "STRING",'value': "ID",'tabindex': "STRING"};
   options = {hash:{
     'class': ("form-control w100"),
     'type': ("text"),
-    'value': ("titleEdit")
+    'value': ("titleEdit"),
+    'tabindex': ("2")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("</td>\n                    <td ");
+  hashContexts = {'class': depth0};
+  hashTypes = {'class': "STRING"};
+  options = {hash:{
+    'class': (":w25 displayTextError:has-error")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['bind-attr'] || (depth0 && depth0['bind-attr'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "bind-attr", options))));
+  data.buffer.push(">");
+  hashContexts = {'class': depth0,'type': depth0,'value': depth0,'tabindex': depth0};
+  hashTypes = {'class': "STRING",'type': "STRING",'value': "ID",'tabindex': "STRING"};
+  options = {hash:{
+    'class': ("form-control w100"),
+    'type': ("text"),
+    'value': ("displayTextEdit"),
+    'tabindex': ("3")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.input || (depth0 && depth0.input)),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "input", options))));
   data.buffer.push("</td>\n                    <td class=\"w25\">");
-  hashContexts = {'multiple': depth0,'value': depth0};
-  hashTypes = {'multiple': "STRING",'value': "ID"};
+  hashContexts = {'multiple': depth0,'value': depth0,'tabindex': depth0};
+  hashTypes = {'multiple': "STRING",'value': "ID",'tabindex': "STRING"};
   options = {hash:{
     'multiple': ("multiple"),
-    'value': ("tagsEdit")
+    'value': ("tagsEdit"),
+    'tabindex': ("4")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers['select-2'] || (depth0 && depth0['select-2'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "select-2", options))));
-  data.buffer.push(" <button class=\"btn btn-default\" ");
-  hashContexts = {'bubbles': depth0};
-  hashTypes = {'bubbles': "BOOLEAN"};
-  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDone", "", {hash:{
-    'bubbles': (false)
-  },contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">Done</button> </td>  \n                ");
+  data.buffer.push("</td>  \n                ");
   return buffer;
   }
 function program10(depth0,data) {
   
-  var buffer = '', hashContexts, hashTypes;
-  data.buffer.push("\n                            <button type=\"button\" class=\"pull-left btn btn-default mt10\" ");
+  var buffer = '', stack1, hashContexts, hashTypes;
+  data.buffer.push("\n                            <button type=\"button\" class=\"btn btn-default mt10\" ");
   hashContexts = {'bubbles': depth0};
   hashTypes = {'bubbles': "BOOLEAN"};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDone", "true", {hash:{
     'bubbles': (false)
   },contexts:[depth0,depth0],types:["STRING","STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\n                                Save and New\n                            </button>\n                        ");
+  data.buffer.push(" tabindex=\"5\">\n                                Save and New\n                            </button> \n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDone", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"6\">Done</button>\n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clearEdits", "", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"7\">Cancel</button>\n                            ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "doneError", {hash:{},inverse:self.noop,fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n                        ");
+  return buffer;
+  }
+function program11(depth0,data) {
+  
+  var buffer = '', hashTypes, hashContexts;
+  data.buffer.push("<div class=\"mt10 red\">");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "doneError", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("</div>");
   return buffer;
   }
 
-function program12(depth0,data) {
+function program13(depth0,data) {
+  
+  var buffer = '', stack1, hashContexts, hashTypes;
+  data.buffer.push("\n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDone", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"5\">Done</button>\n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickDelete", "", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"6\">Delete</button>\n                            <button class=\"btn btn-default mt10\" ");
+  hashContexts = {'bubbles': depth0};
+  hashTypes = {'bubbles': "BOOLEAN"};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clearEdits", "", {hash:{
+    'bubbles': (false)
+  },contexts:[depth0,depth0],types:["STRING","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" tabindex=\"7\">Cancel</button>\n                            ");
+  hashTypes = {};
+  hashContexts = {};
+  stack1 = helpers['if'].call(depth0, "doneError", {hash:{},inverse:self.noop,fn:self.program(11, program11, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push("\n                        ");
+  return buffer;
+  }
+
+function program15(depth0,data) {
   
   var buffer = '', hashContexts, hashTypes;
   data.buffer.push("  \n                    <td class=\"w25\"><span class=\"glyphicon glyphicon-trash table-remove\" ");
@@ -660,15 +783,15 @@ function program12(depth0,data) {
   data.buffer.push("></span>  ");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "displayText", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "artists", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("</td>\n                    <td class=\"w25\">");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "artistsDisplayText", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "title", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push(" </td>\n                    <td class=\"w25\">");
   hashTypes = {};
   hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "title", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "displayText", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push(" </td>\n                    <td class=\"w25\">");
   hashTypes = {};
   hashContexts = {};
@@ -677,7 +800,7 @@ function program12(depth0,data) {
   return buffer;
   }
 
-function program14(depth0,data) {
+function program17(depth0,data) {
   
   var buffer = '', hashContexts, hashTypes;
   data.buffer.push("\n    <button type=\"button\" class=\"pull-left btn btn-default\" ");
@@ -702,18 +825,40 @@ function program14(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "letterFilter", {hash:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n</div>\n\n<table class=\"table table-hover w100\">\n    <thead>\n        <tr>\n            <th class=\"w25\">Display Text</th>\n            <th class=\"w25\">Artists</th>\n            <th class=\"w25\">Title</th>\n            <th class=\"w25\">Tags</th>\n        </th>\n    </thead>\n    <tbody>\n        ");
+  data.buffer.push("\n</div>\n\n<table class=\"table table-hover w100\">\n    <thead>\n        <tr>\n            <th class=\"w25 clickable\" ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickSortBy", "artists", {hash:{},contexts:[depth0,depth0],types:["STRING","STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(">Artists \n                <span ");
+  hashContexts = {'class': depth0};
+  hashTypes = {'class': "STRING"};
+  options = {hash:{
+    'class': (":glyphicon :glyphicon-sort-by-alphabet isSortByArtists::column-sort")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['bind-attr'] || (depth0 && depth0['bind-attr'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "bind-attr", options))));
+  data.buffer.push("></span>\n            </th>\n            <th class=\"w25 clickable\" ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "clickSortBy", "title", {hash:{},contexts:[depth0,depth0],types:["STRING","STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(">Title \n                <span ");
+  hashContexts = {'class': depth0};
+  hashTypes = {'class': "STRING"};
+  options = {hash:{
+    'class': (":glyphicon :glyphicon-sort-by-alphabet isSortByTitle::column-sort")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers['bind-attr'] || (depth0 && depth0['bind-attr'])),stack1 ? stack1.call(depth0, options) : helperMissing.call(depth0, "bind-attr", options))));
+  data.buffer.push(">\n            </th>\n            <th class=\"w25\">Display Text</th>\n            <th class=\"w25\">Tags</th>\n        </th>\n    </thead>\n    <tbody>\n        ");
   hashContexts = {'itemController': depth0};
   hashTypes = {'itemController': "STRING"};
-  stack1 = helpers.each.call(depth0, {hash:{
+  stack2 = helpers.each.call(depth0, {hash:{
     'itemController': ("song")
   },inverse:self.noop,fn:self.program(8, program8, data),contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n    </tbody>\n</table>  \n\n");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.unless.call(depth0, "hasNew", {hash:{},inverse:self.noop,fn:self.program(14, program14, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  stack2 = helpers.unless.call(depth0, "hasNew", {hash:{},inverse:self.noop,fn:self.program(17, program17, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n<div style=\"padding-right:87px;\">\n    <ul class=\"pager\" >\n        <li ");
   hashContexts = {'class': depth0};
   hashTypes = {'class': "STRING"};

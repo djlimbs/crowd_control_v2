@@ -25,7 +25,7 @@
 <table class="table table-hover w100">
     <thead>
         <tr>
-            <th class="w25">Name</th>
+            <th class="w25">Name <span class="glyphicon glyphicon-sort-by-alphabet"></span></th>
             <th class="w25">Tags</th>
         </th>
     </thead>
@@ -34,14 +34,22 @@
             <tr class="clickable-row" {{action "clickEdit" bubbles=false}}>
                 {{#if isEdit}}
                     <td {{bind-attr class=":w25 has-error"}}>
-                        {{input class="form-control w50"type="text" value=nameEdit}}
+                        {{input class="form-control w50"type="text" value=nameEdit tabindex="1"}}
                         {{#if isNew}}
-                            <button type="button" class="pull-left btn btn-default mt10" {{action "clickDone" "true" bubbles=false}}>
+                            <button type="button" class="btn btn-default mt10" {{action "clickDone" "true" bubbles=false}} tabindex="3">
                                 Save and New
                             </button> 
+                            <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="4">Done</button>
+                            <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="5">Cancel</button>
+                            {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
+                        {{else}}
+                            <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="3">Done</button>
+                            <button class="btn btn-default mt10" {{action "clickDelete" this bubbles=false}} tabindex="4">Delete</button>
+                            <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="5">Cancel</button>
+                            {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
                         {{/if}}
                     </td>
-                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} <button class="btn btn-default" {{action "clickDone" this bubbles=false}}>Done</button> </td>  
+                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit tabindex="2"}}</td>  
                 {{else}}  
                     <td class="w25"><span class="glyphicon glyphicon-trash table-remove" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
                     <td class="w25">{{tags}} </td>

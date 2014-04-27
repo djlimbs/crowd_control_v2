@@ -1,75 +1,3 @@
-CCAdmin.ArtistsController = Ember.ArrayController.extend({
-    isNextDisabled: function() {
-        return this.get('hasNext') === false;
-    }.property('hasNext'),
-    isPrevDisabled: function() {
-        console.log(this.get('skipValue'));
-        return Ember.isNone(this.get('skipValue')) || this.get('skipValue') <= 0;
-    }.property('skipValue'),
-    hasNew: function() {
-        return this.anyBy('isNew', true);
-    }.property('[]'),
-    actions: {
-        clickAdd: function() {
-            this.send('clearEdits');
-            this.addObject({
-                name: '',
-                tags: [],
-                isEdit: true,
-                isNew: true
-            });
-        },
-        clickFilterByLetter: function(letter) {
-            this.get('letterFilter') === letter.valueOf() ? 
-                            this.set('letterFilter', undefined) : this.set('letterFilter', letter.valueOf());
-            this.send('getArtists');
-        },
-        clickClearFilter: function() {
-            this.set('letterFilter', undefined);
-            this.send('getArtists');
-        },
-        clickNextPage: function() {
-            if (!this.get('isNextDisabled')) {
-                var newSkipValue = this.getWithDefault('skipValue', 0) + Fixtures.get('searchLimit');
-                this.set('skipValue', newSkipValue);
-                this.send('getArtists');
-            }
-        },
-        clickPrevPage: function() {
-            if (!this.get('isPrevDisabled')) {
-                var newSkipValue = this.getWithDefault('skipValue', 0) - Fixtures.get('searchLimit');
-                if (newSkipValue < 0) { newSkipValue = 0; }
-                this.set('skipValue', newSkipValue);
-                this.send('getArtists');
-            }
-        },
-        getArtists: function() {
-            var searchLimit = Fixtures.get('searchLimit');
-            var self = this;
-            var query = {
-                $sort: { name : 1},
-                $limit: searchLimit + 1
-            };
-
-            if (!Ember.isNone(this.get('letterFilter'))) {
-                query.name = { $regex : '[' + this.get('letterFilter') + ']'}
-            }
-
-            if (!Ember.isNone(this.get('skipValue'))) {
-                query['$skip'] = this.get('skipValue');
-            }
-
-            dpd.artists.get(query, function(result, error) {
-                if (!Ember.isNone(result)) {
-                    result.length === searchLimit + 1 ? self.set('hasNext', true) : self.set('hasNext', false);
-                    self.set('content', result.slice(0, searchLimit));
-                } else if (!Ember.isNone(error)) {
-                    console.log(error)
-                }
-            });
-        }
-    }
-});
 
 CCAdmin.ArtistController = Ember.ObjectController.extend({
     actions: {
@@ -79,45 +7,44 @@ CCAdmin.ArtistController = Ember.ObjectController.extend({
                 this.setProperties({
                     isEdit: true,
                     nameEdit: this.get('name'),
-                    tagsEdit: !Ember.isNone(this.get('tags')) ? this.get('tags') : []
+                    tagsEdit: !Ember.isNone(this.get('tags')) ? this.get('tags').join(',') : ''
                 });
             }
         },
         clickDone: function(addAnother) {
             if (Ember.isEmpty(this.get('nameEdit'))) {
-                this.set('has-error', true);
+                this.setProperties({
+                    'has-error' : true,
+                    doneError : 'Artist name can not be blank'
+                });
             } else {
                 var self = this;
-                this.setProperties({
-                    nameError: undefined,
-                    isEdit: undefined,
-                    isNew: undefined,
+
+                dpd.artists.post({
+                    id: this.get('id'),
+                    name: this.get('nameEdit'),
+                    tags: !Ember.isEmpty(this.get('tagsEdit')) ? this.get('tagsEdit').split(',') : []
+                }, function(result, error) {
+                    if (!Ember.isNone(result)) {
+                        self.setProperties(result);
+                        self.setProperties({
+                            'has-error': undefined,
+                            isEdit: undefined,
+                            isNew: undefined,
+                        });
+                        self.parentController.notifyPropertyChange('[]');
+                        if (addAnother === "true") {
+                            self.send('clickAdd');
+                        }
+                    }
+
+                    if (!Ember.isNone(error)) {
+                        self.setProperties({
+                            'has-error' : true,
+                            doneError: error.message,
+                        });
+                    }
                 });
-
-                if (!Ember.isNone(this.get('id'))) {
-                    dpd.artists.put({
-                        id: this.get('id'),
-                        name: this.get('nameEdit'),
-                        tags: !Ember.isEmpty(this.get('tagsEdit')) ? this.get('tagsEdit').split(',') : []
-                    }, function(result, error) {
-                        if (!Ember.isNone(result)) {
-                            self.setProperties(result);
-                        }
-                    });
-                } else {
-                    dpd.artists.post({
-                        name: this.get('nameEdit'),
-                        tags: !Ember.isEmpty(this.get('tagsEdit')) ? this.get('tagsEdit').split(',') : []
-                    }, function(result, error) {
-                        if (!Ember.isNone(result)) {
-                            self.setProperties(result);
-                        }
-                    });
-                }
-
-                if (addAnother === "true") {
-                    this.send('clickAdd');
-                }
             }
         },
         clickDelete: function(obj) {

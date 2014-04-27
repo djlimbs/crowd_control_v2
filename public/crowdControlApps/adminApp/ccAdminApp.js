@@ -5,7 +5,11 @@ CCAdmin = Ember.Application.create({
 
 Fixtures = Ember.Object.create({
     letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
-    searchLimit: 15
+    searchLimit: 15,
+    queryBy: {
+        artists: 'name',
+        songs: 'title'
+    }
 });
 
 // Components
@@ -24,8 +28,9 @@ CCAdmin.Select2Component = Ember.TextField.extend({
             options.query = function(query) {
                 dpd(objectQuery).get({name: {$regex:  '(?i)' + query.term + '\w*'}}, function(result, error) {
                     if (!Ember.isEmpty(result)) {
-                        query.callback({ results : result.map(function(item) { return { id: item.id, text: item.name }}) });
-
+                        query.callback({ results : result.map(function(item) { return { id: item.name, text: item.name }}) });
+                    } else {
+                        query.callback({ results : []});
                     }
 
                     if (!Ember.isNone(error)) {
@@ -35,7 +40,18 @@ CCAdmin.Select2Component = Ember.TextField.extend({
             };
 
             options.initSelection = function(e, callback) {
-                callback(items.map(function(item) { return { id: item.id, text: item.name}}));
+                callback(items.split(',').map(function(item) { return { id: item, text: item}}));
+            };
+
+            options.createSearchChoice = function(term, data) {
+                if ($(data).filter(function() { 
+                    return this.text.localeCompare(term)===0; 
+                }).length===0) {
+                    return {
+                        id : '(new)' + term,
+                        text : term
+                    }
+                }
             };
         } else {
             options.dropdownCss = { display: 'none' };
@@ -55,6 +71,24 @@ CCAdmin.MainView = Ember.View.extend({
 // Controllers
 CCAdmin.MainController = Ember.ObjectController.extend({
 
+});
+
+CCAdmin.ItemsController = Ember.ArrayController.extend({
+    isNextDisabled: function() {
+        return this.get('hasNext') === false;
+    }.property('hasNext'),
+    isPrevDisabled: function() {
+        return Ember.isNone(this.get('skipValue')) || this.get('skipValue') <= 0;
+    }.property('skipValue'),
+    hasNew: function() {
+        return this.anyBy('isNew', true);
+    }.property('[]'),
+    isSortByArtists: function() {
+        return this.get('sortBy') === 'artists';
+    }.property('sortBy'),
+    isSortByTitle: function() {
+        return this.get('sortBy') === 'title';
+    }.property('sortBy')
 });
 
 CCAdmin.LetterController = Ember.ObjectController.extend({

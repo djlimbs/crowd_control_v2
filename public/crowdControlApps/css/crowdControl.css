@@ -1,4 +1,8 @@
 /* General helpers */
+.red {
+    color: #FF0000;
+}
+
 .pb0 {
 	padding-bottom: 0px !important;
 }
@@ -39,6 +43,15 @@
 	width: 100% !important;
 }
 
+.column-sort {
+    display: none !important;
+}
+
+.clickable:hover .column-sort {
+    opacity: 0.5;
+    display: inline-block !important;
+}
+
 .table-remove {
 	display: none !important;
 }
@@ -56,6 +69,10 @@ tr:hover .table-remove {
 	opacity: 1.0 !important;
 }
 /* Select2 mods */
+
+.has-error ul.select2-choices {
+    border-color: #b94a48 !important;
+}
 
 .select2-search-choice-close {
     background: url('../lib/select2/css/select2.png') right top no-repeat!important;
@@ -167,7 +184,8 @@ body .select2-drop,body .bootstrap-scope .input-group-addon {
 	font-weight: normal;
 }
 
-.clickable {
+.clickable:hover {
+    font-weight: bold;
 	cursor: pointer;
 }
 
