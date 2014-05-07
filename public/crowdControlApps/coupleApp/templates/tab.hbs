@@ -31,11 +31,23 @@
                     <div class="song-choice">
                         <span {{bind-attr class="score"}}>{{displayText}}</span>
                         <div class="rate">
-                            <span class="clickable glyphicon glyphicon-music"></span> 
-                            &#8226; <small class="clickable" {{action "clickPlay"}}>Play</small> 
+                            {{#if itunesPreviewUrl}}
+                                {{#if isPlaying}}
+                                    <span class="clickable glyphicon glyphicon-stop" {{action "clickStop"}}></span>
+                                {{else}}
+                                    <span class="clickable glyphicon glyphicon-music" {{action "clickPreview"}}></span>
+                                {{/if}} 
+                                &#8226; 
+                            {{/if}}
+                            <small class="clickable" {{action "clickPlay"}}>Play</small> 
                             &#8226; <small class="clickable" {{action "clickNay"}}>Nay</small> 
                             &#8226; <small class="clickable" {{action "clickEitherWay"}}>Either Way</small>
                         </div>
+                        {{#if itunesBuyUrl}}
+                            <div class="rate">
+                                <small class="clickable"><a {{bind-attr href="itunesBuyUrl"}} target="_blank">Download on iTunes</a></small>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
             {{/each}}

@@ -4,7 +4,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', stack1, hashContexts, hashTypes, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<div class=\"container\">\n	<div class=\"header clearfix\">\n        <ul class=\"nav nav-pills pull-right\">\n          	<li class=\"active\">\n            	<a href=\"#\">Login</a>\n          	</li>\n          	<li>\n            	<a href=\"#\">About</a>\n          	</li>\n          	<li>\n            	<a href=\"#\">Contact</a>\n          	</li>\n        </ul>\n        \n    </div>\n	<div class=\"login-form\">\n        <h2 class=\"form-signin-heading\">Come on in</h2>\n        ");
+  data.buffer.push("<div class=\"container mt10\">\n	<div class=\"header clearfix\">\n        <ul class=\"nav nav-pills pull-right\">\n          	<li class=\"active\">\n            	<a href=\"#\">Login</a>\n          	</li>\n          	<li>\n            	<a href=\"#\">About</a>\n          	</li>\n          	<li>\n            	<a href=\"#\">Contact</a>\n          	</li>\n        </ul>\n        \n    </div>\n	<div class=\"login-form\">\n        <h2 class=\"form-signin-heading\">Come on in</h2>\n        ");
   hashContexts = {'type': depth0,'class': depth0,'placeholder': depth0,'value': depth0};
   hashTypes = {'type': "STRING",'class': "STRING",'placeholder': "STRING",'value': "ID"};
   options = {hash:{

@@ -3,6 +3,24 @@ CCCouple = Ember.Application.create({
     rootElement: '#application',
 });
 
+// Views
+CCCouple.SongPreviewView = Ember.View.extend({
+    tagName: 'audio',
+    attributeBindings: ['src'],
+    src: function() {
+        return this.get('controller.songUrl');
+    }.property(),
+    didInsertElement: function() {
+        var self = this;
+        this.$().on('ended pause', function() {
+            self.get('controller').set('songUrl', undefined)
+                                  .send('finishedPreview');
+        }).context.play();
+    }
+});
+
+
+
 // Controllers
 CCCouple.MainController = Ember.ObjectController.extend({
     actions: {
@@ -21,10 +39,12 @@ CCCouple.TabController = Ember.ObjectController.extend({
         return this.get('name') === this.get('selectedTab').name;
     }.property('selectedTab'),
     allPlaylists: function() {
-        return Ember.isNone(this.get('playlists')) ? [] : this.get('playlists').getEach('name');
-    }.property('playlists'),
+        var playlistsData = this.get('playlistsData');
+        return Ember.isNone(playlistsData) ? [] : this.get('playlists').map(function(pl) { return playlistsData.findBy('id', pl); }).getEach('name');
+    }.property('playlists', 'playlistsData'),
     displayedPlaylists: function() {
-        var playlists = this.get('playlists');
+        var playlistsData = this.get('playlistsData');
+        var playlists = this.get('playlists').map(function(pl) { return playlistsData.findBy('id', pl); });
         var playlistFilter = this.get('playlistFilter');
         var preferenceFilter = this.get('preferenceFilter');
         if (!Ember.isNone(playlistFilter)) {
@@ -41,11 +61,14 @@ CCCouple.TabController = Ember.ObjectController.extend({
                         })
             }];
         } else {
-            return this.get('playlists');
+            return playlists;
         }
-    }.property('playlists', 'playlistFilter', 'preferenceFilter', 'votes'),
+    }.property('playlists', 'playlistsData', 'playlistFilter', 'preferenceFilter', 'votes'),
     noSongsScored: function() {
-        return Ember.isEmpty(this.get('displayedPlaylists').getEach('songs').reduce(function(a,b) { return a.concat(b); }));
+        console.log(this.get('displayedPlaylists').getEach('songs'))
+        if (!Ember.isEmpty(this.get('displayedPlaylists').getEach('songs'))) {
+            return Ember.isEmpty(this.get('displayedPlaylists').getEach('songs').reduce(function(a,b) { return a.concat(b); }));
+        }
     }.property('displayedPlaylists'),
     actions: {
         clickSelectTab: function() {
@@ -91,9 +114,39 @@ CCCouple.SongController = Ember.ObjectController.extend({
     score: function() {
         return !Ember.isNone(this.get('myVote')) ? this.get('myVote').score : 'either way';
     }.property('myVote'),
+    isPlaying: function() {
+        return !Ember.isNone(this.get('songUrl'));
+    }.property('songUrl'),
     actions: {
+        clickStop: function() {
+            $('audio')[0].pause();
+        },
         clickPreview: function() {
+            if($('audio').length > 0) {
+                $('audio')[0].pause();
+            }
+            var self = this;
+            var callback = function(result, error) {
+                console.log($.parseJSON(result.response.trim()));
+                if (!Ember.isNone(result)) {
+                    var responseObject = $.parseJSON(result.response.trim());
+                    var songPreviewUrl = !Ember.isEmpty(responseObject.results) ? responseObject.results[0].previewUrl : undefined;
+                    self.set('songUrl', songPreviewUrl).send('previewSong', self);
+                }
 
+                if (!Ember.isNone(error)) {
+                    console.log(error);
+                }
+            }
+
+            if (!Ember.isNone(this.get('itunesPreviewUrl'))) {
+                this.set('songUrl', this.get('itunesPreviewUrl')).send('previewSong', this);
+            } else if (!Ember.isNone(this.get('itunesId'))) {
+                dpd.itunes.get({ id: this.get('itunesId')}, callback)
+            } else {
+                console.log('here')
+                dpd.itunes.get({ displayText : this.get('displayText')}, callback);
+            }
         },
         clickPlay: function() {
             var self = this;
@@ -173,6 +226,33 @@ CCCouple.MainRoute = Ember.Route.extend({
             model: model,
             selectedTab: !Ember.isNone(model.get('tabs')) ? model.get('tabs')[0] : undefined
         });
+    },
+    actions: {
+        previewSong: function(song) {
+            this.render('songPreview', {
+                into: 'main',
+                outlet: 'songPreview',
+                controller: song
+            });
+        },
+        finishedPreview: function() {
+            console.log('done');
+            this.disconnectOutlet({
+                outlet: 'songPreview',
+                parentView: 'main'
+            });
+        },
+        clickLogout: function() {
+            dpd.users.logout(function(result, error) {
+                if (!Ember.isNone(result)) {
+                    window.location.href = '../crowdControlApps/login.html';
+                }
+
+                if (!Ember.isNone(error)) {
+                    console.log(error);
+                }
+            });
+        }
     }
 });
 

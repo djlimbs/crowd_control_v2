@@ -31,7 +31,7 @@
     </thead>
     <tbody>
         {{#each itemController="artist"}}
-            <tr class="clickable-row" {{action "clickEdit" bubbles=false}}>
+            <tr class="clickable-row hover-btn-cont" {{action "clickEdit" bubbles=false}}>
                 {{#if isEdit}}
                     <td {{bind-attr class=":w25 has-error"}}>
                         {{input class="form-control w50"type="text" value=nameEdit tabindex="1"}}
@@ -51,7 +51,7 @@
                     </td>
                     <td class="w25">{{select-2 multiple="multiple" value=tagsEdit tabindex="2"}}</td>  
                 {{else}}  
-                    <td class="w25"><span class="glyphicon glyphicon-trash table-remove" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
+                    <td class="w25"><span class="glyphicon glyphicon-trash hover-btn" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
                     <td class="w25">{{tags}} </td>
                 {{/if}}            
             </tr>

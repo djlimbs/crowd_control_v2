@@ -25,26 +25,45 @@
 <table class="table table-hover w100">
     <thead>
         <tr>
-            <th class="w25">Name</th>
-            <th class="w25">Tags</th>
+            <th class="w25">Username (e-mail)</th>
+            <th class="w25">Password</th>
+            <th class="w25">User type</th>
+            <th class="w25">Event date</th>
+            <th class="w25">Guests</th>
         </th>
     </thead>
     <tbody>
         {{#each itemController="user"}}
-            <tr class="clickable-row" {{action "clickEdit" bubbles=false}}>
+            <tr class="clickable-row hover-btn-cont" {{action "clickEdit" bubbles=false}}>
                 {{#if isEdit}}
-                    <td {{bind-attr class=":w25 has-error"}}>
-                        {{input class="form-control w50"type="text" value=nameEdit}}
-                        {{#if isNew}}
-                            <button type="button" class="pull-left btn btn-default mt10" {{action "clickDone" "true" bubbles=false}}>
-                                Save and New
-                            </button> 
-                        {{/if}}
+                    <td {{bind-attr class=":w25 artistError:has-error"}}>
+                        {{input class="form-control w100"type="text" value=usernameEdit tabindex="1"}}
+                        <div>
+                            {{#if isNew}}
+                                <button type="button" class="btn btn-default mt10" {{action "clickDone" "true" bubbles=false}} data-loading-text="Loading..." tabindex="5" data-dev="new-btn">
+                                    Save and New
+                                </button> 
+                                <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="6" data-loading-text="Loading..." data-dev="done-btn">Done</button>
+                                <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="7">Cancel</button>
+                                {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
+                            {{else}}
+                                <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="5">Done</button>
+                                <button class="btn btn-default mt10" {{action "clickDelete" this bubbles=false}} tabindex="6">Delete</button>
+                                <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="7">Cancel</button>
+                                {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
+                            {{/if}}
+                        </div>
                     </td>
-                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} <button class="btn btn-default" {{action "clickDone" this bubbles=false}}>Done</button> </td>  
+                    <td {{bind-attr class=":w25 displayTextError:has-error"}}>{{input class="form-control w100" type="password" value=passwordEdit tabindex="2"}}</td>
+                    <td {{bind-attr class=":w25 titleError:has-error"}}>{{view Ember.Select class="form-control w100" content=Fixtures.userTypes value=userTypeEdit tabindex="3"}}</td>
+                    <td {{bind-attr class=":w25 displayTextError:has-error"}}>{{input class="form-control w100" type="text" value=eventDateEdit tabindex="4"}}</td>
+                    <td class="w25">{{select-2 multiple="multiple" value=guestsEdit tabindex="5"}}</td>  
                 {{else}}  
-                    <td class="w25"><span class="glyphicon glyphicon-trash table-remove" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
-                    <td class="w25">{{tags}} </td>
+                    <td class="w25"><span class="glyphicon glyphicon-trash hover-btn" {{action "clickDelete" this bubbles=false}}></span>  {{username}}</td>
+                    <td class="w25">********* </td>
+                    <td class="w25">{{userType}} </td>
+                    <td class="w25">{{eventDate}} </td>
+                    <td class="w25">{{guests}} </td>
                 {{/if}}            
             </tr>
         {{/each}}
@@ -53,7 +72,7 @@
 
 {{#unless hasNew}}
     <button type="button" class="pull-left btn btn-default" {{action "clickAdd" bubbles=false}}>
-        Add Artist
+        Add User
     </button>
 {{/unless}}
 <div style="padding-right:87px;">

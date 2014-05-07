@@ -1,6 +1,9 @@
-<div class="container">
+<div class="container mt10">
 	<div class="clearfix">
-		<span class="pull-right main-label">Crowd Control</span>
+		<div class="pull-right">
+			<span class="main-label vam">Crowd Control</span>
+			<button class="btn btn-default btn-sm ml5" {{action "clickLogout"}}>Logout</button>
+		</div>
 		<ul class="nav nav-tabs">
             {{#link-to "artists" tagName="li"}}<a href="#">Edit Artists</a>{{/link-to}}
             {{#link-to "songs" tagName="li"}}<a href="#">Edit Songs</a>{{/link-to}}
@@ -11,7 +14,7 @@
 	</div>
 	
     {{outlet}}
-	
+	{{outlet modal}}
     <div class="footer">
 		<p>&copy; Erika 2014</p>
 	</div>

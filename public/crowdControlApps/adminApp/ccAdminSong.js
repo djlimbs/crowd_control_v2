@@ -1,32 +1,9 @@
 CCAdmin.SongController = Ember.ObjectController.extend({
-    artistsDisplayText: function() {
-        return this.get('artists').getEach('name');
-    }.property('artists'),
     displayTextEdit: function() {
-        var artists = this.get('artistsEdit') || '';
+        var artist = this.get('artistEdit') || '';
         var title = this.get('titleEdit') || '';
 
-
-        if (Ember.isEmpty(artists) && Ember.isEmpty(title)) {
-            return '';
-        } else {
-            var artistText = '';
-            var artistsArray = artists.split(',');
-
-            artistsArray.forEach(function(artist, index, artists) {
-                artist = artist.replace('(new)', '');
-                if (index === 0) {
-                    artistText += artist;
-                } else if (index === 1) {
-                    artistText += ' ft. ' + artist;
-                } else if (index === artists.length - 1) {
-                    artistText += ' and ' + artist;
-                } else {
-                    artistText += ', ' + artist;
-                }
-            });
-            return artistText + ' - ' + title;
-        }
+        return Ember.isEmpty(artist) && Ember.isEmpty(title) ? '' : artist.replace('(new)', '') + ' - ' + title;
     }.property('artistsEdit', 'titleEdit'),
     actions: {
         clickEdit: function() {
@@ -35,7 +12,7 @@ CCAdmin.SongController = Ember.ObjectController.extend({
                 this.setProperties({
                     isEdit: true,
                     displayTextEdit: this.get('displayText'),
-                    artistsEdit: !Ember.isNone(this.get('artists')) ? this.get('artists').join(',') : '',
+                    artistEdit: this.get('artist'),
                     titleEdit: this.get('title'),
                     tagsEdit: !Ember.isNone(this.get('tags')) ? this.get('tags').join(',') : ''
                 });
@@ -43,33 +20,38 @@ CCAdmin.SongController = Ember.ObjectController.extend({
         },
         clickDone: function(addAnother) {
             var displayTextEdit = this.get('displayTextEdit');
-            var artistsEdit = this.get('artistsEdit');
+            var artistEdit = this.get('artistEdit');
             var titleEdit = this.get('titleEdit');
             var tagsEdit = this.get('tagsEdit');
 
             this.setProperties({
                 displayTextError: Ember.isEmpty(displayTextEdit),
-                artistsError: Ember.isEmpty(artistsEdit),
+                artistError: Ember.isEmpty(artistEdit),
                 titleError: Ember.isEmpty(titleEdit),
-                doneError: Ember.isEmpty(displayTextEdit) || Ember.isEmpty(artistsEdit) || Ember.isEmpty(titleEdit) ?
+                doneError: Ember.isEmpty(displayTextEdit) || Ember.isEmpty(artistEdit) || Ember.isEmpty(titleEdit) ?
                                     'You\'re missing some info, see the red fields.' : undefined
             });
 
-            if (!Ember.isEmpty(displayTextEdit) && !Ember.isEmpty(artistsEdit) && !Ember.isEmpty(titleEdit)) {
+            if (!Ember.isEmpty(displayTextEdit) && !Ember.isEmpty(artistEdit) && !Ember.isEmpty(titleEdit)) {
                 var self = this;
 
+                if (addAnother === true) {
+                    $('[data-dev="new-btn"]').button('loading');
+                } else {
+                    $('[data-dev="done-btn"]').button('loading');
+                }
+                
                 this.setProperties({
-                    isEdit: undefined,
-                    isNew: undefined,
+                    //isEdit: undefined,
+                    //isNew: undefined,
                     displayTextError: undefined,
-                    artistsError: undefined,
-                    titleError: undefined,
+                    titleError: undefined
                 });
 
                 dpd.songs.post({
                     id: this.get('id'),
                     displayText: displayTextEdit,
-                    artists: artistsEdit.split(','),
+                    artist: artistEdit,
                     title: titleEdit,
                     tags: !Ember.isEmpty(tagsEdit) ? tagsEdit.split(',') : []
                 }, function(result, error) {
@@ -80,11 +62,14 @@ CCAdmin.SongController = Ember.ObjectController.extend({
                     if (!Ember.isNone(result)) {
                         self.setProperties({
                             id: result.id,
-                            artists: result.artists,
+                            artist: result.artist,
                             displayText: result.displayText,
                             title: result.title,
-                            tags: result.tags
+                            tags: result.tags,
+                            isEdit: undefined,
+                            isNew: undefined
                         });
+                        self.get('parentController').notifyPropertyChange('[]');
                     }
 
                     if (addAnother === "true") {

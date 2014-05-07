@@ -7,6 +7,10 @@
 	padding-bottom: 0px !important;
 }
 
+.ml5 {
+    margin-left: 5px !important;
+}
+
 .mt10 {
     margin-top: 10px !important;
 }
@@ -20,7 +24,7 @@
 }
 
 .vam {
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 
 .w25 {
@@ -52,11 +56,11 @@
     display: inline-block !important;
 }
 
-.table-remove {
+.hover-btn {
 	display: none !important;
 }
 
-tr:hover .table-remove {
+.hover-btn-cont:hover .hover-btn {
 	opacity: 0.5;
 	display: inline-block !important;
 }
@@ -65,8 +69,9 @@ tr:hover .table-remove {
 	cursor: pointer;
 }
 
-.table-remove:hover {
+.hover-btn:hover {
 	opacity: 1.0 !important;
+    cursor: pointer !important;
 }
 /* Select2 mods */
 
@@ -148,6 +153,11 @@ body .select2-drop,body .bootstrap-scope .input-group-addon {
 }
 
 /* Page specific */
+
+.sortable {
+    cursor: pointer;
+}
+
 .alphabet-links {
     width: 3.2%;
 }

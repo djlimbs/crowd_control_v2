@@ -1,21 +1,13 @@
 {
 	"type": "Collection",
 	"properties": {
-		"displayText": {
-			"name": "displayText",
+		"artist": {
+			"name": "artist",
 			"type": "string",
 			"typeLabel": "string",
-			"required": true,
-			"id": "displayText",
+			"required": false,
+			"id": "artist",
 			"order": 0
-		},
-		"artists": {
-			"name": "artists",
-			"type": "array",
-			"typeLabel": "array",
-			"required": true,
-			"id": "artists",
-			"order": 1
 		},
 		"title": {
 			"name": "title",
@@ -23,6 +15,14 @@
 			"typeLabel": "string",
 			"required": true,
 			"id": "title",
+			"order": 1
+		},
+		"displayText": {
+			"name": "displayText",
+			"type": "string",
+			"typeLabel": "string",
+			"required": true,
+			"id": "displayText",
 			"order": 2
 		},
 		"tags": {
@@ -32,6 +32,30 @@
 			"required": false,
 			"id": "tags",
 			"order": 3
+		},
+		"itunesId": {
+			"name": "itunesId",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "itunesId",
+			"order": 4
+		},
+		"itunesPreviewUrl": {
+			"name": "itunesPreviewUrl",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "itunesPreviewUrl",
+			"order": 5
+		},
+		"itunesBuyUrl": {
+			"name": "itunesBuyUrl",
+			"type": "string",
+			"typeLabel": "string",
+			"required": false,
+			"id": "itunesBuyUrl",
+			"order": 6
 		}
 	}
 }

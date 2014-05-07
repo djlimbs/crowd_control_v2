@@ -26,24 +26,32 @@
     <thead>
         <tr>
             <th class="w25">Name</th>
+            <th class="w25"># of songs</th>
             <th class="w25">Tags</th>
         </th>
     </thead>
     <tbody>
         {{#each itemController="playlist"}}
-            <tr class="clickable-row" {{action "clickEdit" bubbles=false}}>
+            <tr class="clickable-row hover-btn-cont" {{action "clickEdit" bubbles=false}}>
                 {{#if isEdit}}
                     <td {{bind-attr class=":w25 has-error"}}>
                         {{input class="form-control w50"type="text" value=nameEdit}}
                         {{#if isNew}}
-                            <button type="button" class="pull-left btn btn-default mt10" {{action "clickDone" "true" bubbles=false}}>
-                                Save and New
-                            </button> 
+                            <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="4">Done</button>
+                            <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="5">Cancel</button>
+                            {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
+                        {{else}}
+                            <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="3">Done</button>
+                            <button class="btn btn-default mt10" {{action "clickDelete" this bubbles=false}} tabindex="4">Delete</button>
+                            <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="5">Cancel</button>
+                            {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
                         {{/if}}
                     </td>
-                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} <button class="btn btn-default" {{action "clickDone" this bubbles=false}}>Done</button> </td>  
+                    <td class="vam w25">{{songCount}} </td>
+                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} </td>  
                 {{else}}  
-                    <td class="w25"><span class="glyphicon glyphicon-trash table-remove" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
+                    <td class="w25"><span class="glyphicon glyphicon-trash hover-btn" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
+                    <td class="vam w25">{{songCount}} <button class="btn btn-xs btn-default hover-btn" {{action "openModal" "editSongsModal" controller bubbles=false}}>Edit Songs</button></td>
                     <td class="w25">{{tags}} </td>
                 {{/if}}            
             </tr>
@@ -53,7 +61,7 @@
 
 {{#unless hasNew}}
     <button type="button" class="pull-left btn btn-default" {{action "clickAdd" bubbles=false}}>
-        Add Artist
+        Add Playlist
     </button>
 {{/unless}}
 <div style="padding-right:87px;">

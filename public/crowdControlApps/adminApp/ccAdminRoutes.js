@@ -12,6 +12,8 @@ CCAdmin.MainRoute = Ember.Route.extend({
     },
     afterModel: function() {
         this.transitionTo('artists');
+    },
+    actions: {
     }
 });
 
@@ -39,13 +41,69 @@ CCAdmin.SongsRoute = Ember.Route.extend({
             model: model.items,
             hasNext: model.hasNext,
             letterFilter: undefined,
-            sortBy: 'title'
+            sortType: 'title'
+        });
+    }
+});
+
+CCAdmin.PlaylistsRoute = Ember.Route.extend({
+    controllerName: 'items',
+    model: function() {
+        return CCAdmin.getResource('playlists', {$sort: {name: 1}, $limit: Fixtures.get('searchLimit') + 1});
+    },
+    setupController: function(controller, model) {
+        controller.setProperties({
+            model: model.items,
+            hasNext: model.hasNext,
+            letterFilter: undefined,
+            sortType: 'name'
+        });
+    }
+});
+
+CCAdmin.TabsRoute = Ember.Route.extend({
+    controllerName: 'items',
+    model: function() {
+        return CCAdmin.getResource('tabs', {$sort: {name: 1}, $limit: Fixtures.get('searchLimit') + 1});
+    },
+    setupController: function(controller, model) {
+        controller.setProperties({
+            model: model.items,
+            hasNext: model.hasNext,
+            letterFilter: undefined,
+            sortType: 'name'
+        });
+    }
+});
+
+CCAdmin.UsersRoute = Ember.Route.extend({
+    controllerName: 'items',
+    model: function() {
+        return CCAdmin.getResource('users', {$sort: {username: 1}, $limit: Fixtures.get('searchLimit') + 1});
+    },
+    setupController: function(controller, model) {
+        controller.setProperties({
+            model: model.items,
+            hasNext: model.hasNext,
+            letterFilter: undefined,
+            sortType: 'username'
         });
     }
 });
 
 CCAdmin.ApplicationRoute = Ember.Route.extend({
     actions: {
+        clickLogout: function() {
+            dpd.users.logout(function(result, error) {
+                if (!Ember.isNone(result)) {
+                    window.location.href = '../crowdControlApps/login.html';
+                }
+
+                if (!Ember.isNone(error)) {
+                    console.log(error);
+                }
+            });
+        },
         clearEdits: function() {
             var controller = this.controllerFor(this.get('controller.currentRouteName'));
             controller.removeObject(controller.findBy('isNew'));
@@ -64,7 +122,7 @@ CCAdmin.ApplicationRoute = Ember.Route.extend({
             }).send('getItems');
         },
         clickSortBy: function(header) {
-            this.controllerFor(this.get('controller.currentRouteName')).set('sortBy', header).send('getItems');
+            this.controllerFor(this.get('controller.currentRouteName')).set('sortType', header).send('getItems');
         },
         clickAdd: function() {
             var controller = this.controllerFor(this.get('controller.currentRouteName'));
@@ -97,12 +155,13 @@ CCAdmin.ApplicationRoute = Ember.Route.extend({
             var searchLimit = Fixtures.get('searchLimit');
             var letterFilter = controller.get('letterFilter');
             var queryBy = Fixtures.get('queryBy')[itemType];
+
             var query = {
                 $sort : {},
                 $limit: searchLimit + 1
             };
 
-            query['$sort'][controller.getWithDefault('sortBy', queryBy)] = 1;
+            query['$sort'][controller.getWithDefault('sortType', queryBy)] = 1;
 
             if (!Ember.isNone(letterFilter)) {
                 query[queryBy] = letterFilter !== 'T' ? { $regex : '^[' + letterFilter + ']|^The [' + letterFilter + ']'}
@@ -112,7 +171,7 @@ CCAdmin.ApplicationRoute = Ember.Route.extend({
             if (!Ember.isNone(controller.get('skipValue'))) {
                 query['$skip'] = controller.get('skipValue');
             }
-
+            console.log(query);
             CCAdmin.getResource(itemType, query).then(function(result) {
                 controller.setProperties({
                     content: result.items,
@@ -120,6 +179,19 @@ CCAdmin.ApplicationRoute = Ember.Route.extend({
                 });
             }, function(error) {
                 console.log(error);
+            });
+        },
+        openModal: function(modalName, model) {
+            return this.render(modalName, {
+                into: 'main',
+                outlet: 'modal',
+                controller: model
+            });
+        },
+        closeModal: function() {
+            return this.disconnectOutlet({
+              outlet: 'modal',
+              parentView: 'main'
             });
         }
     }

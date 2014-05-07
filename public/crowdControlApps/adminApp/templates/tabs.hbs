@@ -26,24 +26,37 @@
     <thead>
         <tr>
             <th class="w25">Name</th>
+            <th class="w25">Playlists</th>
             <th class="w25">Tags</th>
         </th>
     </thead>
     <tbody>
         {{#each itemController="tab"}}
-            <tr class="clickable-row" {{action "clickEdit" bubbles=false}}>
+            <tr class="clickable-row hover-btn-cont" {{action "clickEdit" bubbles=false}}>
                 {{#if isEdit}}
                     <td {{bind-attr class=":w25 has-error"}}>
                         {{input class="form-control w50"type="text" value=nameEdit}}
-                        {{#if isNew}}
-                            <button type="button" class="pull-left btn btn-default mt10" {{action "clickDone" "true" bubbles=false}}>
-                                Save and New
-                            </button> 
-                        {{/if}}
+                        <div>
+                            {{#if isNew}}
+                                <button type="button" class="btn btn-default mt10" {{action "clickDone" "true" bubbles=false}} tabindex="5">
+                                    Save and New
+                                </button> 
+                                <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="6">Done</button>
+                                <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="7">Cancel</button>
+                                {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
+                            {{else}}
+                                <button class="btn btn-default mt10" {{action "clickDone" bubbles=false}} tabindex="5">Done</button>
+                                <button class="btn btn-default mt10" {{action "clickDelete" this bubbles=false}} tabindex="6">Delete</button>
+                                <button class="btn btn-default mt10" {{action "clearEdits" this bubbles=false}} tabindex="7">Cancel</button>
+                                {{#if doneError}}<div class="mt10 red">{{doneError}}</div>{{/if}}
+                            {{/if}}
+                        </div>
                     </td>
-                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} <button class="btn btn-default" {{action "clickDone" this bubbles=false}}>Done</button> </td>  
+                    <td class="w25">{{select-2 multiple="multiple" value=playlistsEdit playlistsData=playlistsData sortedPlaylists=sortedPlaylists objectQuery="playlists"}}</td>
+                    <td class="w25">{{select-2 multiple="multiple" value=tagsEdit}} </td>  
                 {{else}}  
-                    <td class="w25"><span class="glyphicon glyphicon-trash table-remove" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
+                    <td class="w25"><span class="glyphicon glyphicon-trash hover-btn" {{action "clickDelete" this bubbles=false}}></span>  {{name}}</td>
+                    <td class="w25">{{playlistsText}}</td>
                     <td class="w25">{{tags}} </td>
                 {{/if}}            
             </tr>
@@ -53,7 +66,7 @@
 
 {{#unless hasNew}}
     <button type="button" class="pull-left btn btn-default" {{action "clickAdd" bubbles=false}}>
-        Add Artist
+        Add Tab
     </button>
 {{/unless}}
 <div style="padding-right:87px;">

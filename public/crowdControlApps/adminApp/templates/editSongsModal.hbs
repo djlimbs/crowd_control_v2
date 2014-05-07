@@ -1,0 +1,28 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="createGroupModalLabel">Edit Playlist Songs</h4>
+        </div>
+        <div class="modal-body">
+            <div class="container w100">
+                {{#if noSongsText}}
+                    <p class="text-muted">{{noSongsText}}</p>
+                {{/if}}
+                <div class="row">
+                    {{#each songs}}
+                        <div class="col-sm-4 mb10 hover-btn-cont"><span class="glyphicon glyphicon-remove hover-btn" {{action "clickRemoveSong" this target="view"}}></span> {{displayText}}</div>
+                    {{/each}}
+                </div>
+            </div>
+            <div {{bind-attr class=":container :w100 selectionError:has-error"}}>
+                {{select-2 value=selectedSong selectedObject=selectedObject data=songIds objectQuery="songs" tabindex="1" data-dev="song-select"}} 
+                <button type="button" class="btn btn-default ml5" {{action "clickAddSong" target="view"}}>Add</button>
+                <p class="red">{{selectionError}}</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+        </div>
+    </div>
+</div>
